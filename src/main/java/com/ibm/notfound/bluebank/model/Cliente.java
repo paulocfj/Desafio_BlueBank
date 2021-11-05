@@ -1,17 +1,15 @@
 package com.ibm.notfound.bluebank.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -32,9 +30,19 @@ public class Cliente {
     private String telefone;
 	@Column(nullable = false)
     private Integer idade;
-	//@Column(nullable = false)
-    //private Endereco  endereco;
-	//@Column(nullable = false)
-    //private Conta conta;
+	@Column(nullable = false)
+	private String documento;
+
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id")
+	@JsonManagedReference
+    private Endereco  endereco;
+
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id")
+	@JsonManagedReference
+	private Conta conta;
 
 }

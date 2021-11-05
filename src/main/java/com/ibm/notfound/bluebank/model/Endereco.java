@@ -1,11 +1,9 @@
 package com.ibm.notfound.bluebank.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,4 +31,8 @@ public class Endereco {
     private String cidade;
     @Column(nullable = false)
     private String uf;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    @JsonBackReference
+    private Cliente cliente;
 }
