@@ -1,52 +1,41 @@
 package com.ibm.notfound.bluebank.controller;
 
 import java.util.List;
-import java.util.Optional;
-import com.ibm.notfound.bluebank.entity.Conta;
-import com.ibm.notfound.bluebank.repository.ContaRepository;
-import com.ibm.notfound.bluebank.repository.EnderecoRepository;
+import com.ibm.notfound.bluebank.request.ClienteRequest;
+import com.ibm.notfound.bluebank.response.ClienteResponse;
+import com.ibm.notfound.bluebank.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ibm.notfound.bluebank.entity.Cliente;
-import com.ibm.notfound.bluebank.repository.ClienteRepository;
-
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 	
 	@Autowired
-	private ClienteRepository clienteRepository;
-
-	@Autowired
-	private EnderecoRepository enderecoRepository;
-
-	@Autowired
-	private ContaRepository contaRepository;
+	private ClienteService clienteService;
 
 	@GetMapping
-	public List<Cliente> listarClientes(){
-		return clienteRepository.findAll();
+	public List<ClienteResponse> listarClientes() {
+		return clienteService.buscarClientes();
 	}
 
 	@GetMapping("/{id}")
-	public Optional<Cliente> listarCliente(@PathVariable Long id) {
-		return clienteRepository.findById(id);
+	public ResponseEntity<ClienteResponse> listarCliente(@PathVariable Long id) {
+
+		ClienteResponse cliente =  clienteService.buscarClientePorId(id);
+		if (cliente == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return  ResponseEntity.ok().body(cliente);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void adicionar(@RequestBody Cliente cliente) {
-
-		Conta conta = cliente.getContas().get(0);
-		System.out.println(conta);
-		cliente.setContas(null);
-		Cliente novoCliente = clienteRepository.save(cliente);
-		System.out.println(novoCliente);
-		conta.setCliente(novoCliente);
-		Conta novaConta = contaRepository.save(conta);
-		System.out.println(novaConta);
+	public ClienteResponse adicionar(@RequestBody ClienteRequest cliente) {
+			return clienteService.criarCliente(cliente);
 	}
 }
 

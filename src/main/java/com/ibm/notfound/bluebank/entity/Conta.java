@@ -1,6 +1,5 @@
 package com.ibm.notfound.bluebank.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ibm.notfound.bluebank.util.TipoDeConta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,11 +32,4 @@ public class Conta {
 
 	@Column(name = "TIPO_DE_CONTA")
 	private TipoDeConta tipoDeConta;
-
-	@ManyToOne
-	@JoinColumn(name = "CLIENTE_ID", referencedColumnName = "ID")
-	@JsonIgnore
-	private Cliente cliente;
-
-
 }

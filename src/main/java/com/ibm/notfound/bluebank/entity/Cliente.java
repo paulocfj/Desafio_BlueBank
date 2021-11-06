@@ -47,7 +47,7 @@ public class Cliente {
     private Endereco  endereco;
 
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
-	private List<Conta> contas;
+	@OneToMany( cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+	private List<Conta> contas = new ArrayList<>();
 
 }
