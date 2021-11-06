@@ -1,4 +1,4 @@
-package com.ibm.notfound.bluebank.model;
+package com.ibm.notfound.bluebank.entity;
 
 import com.ibm.notfound.bluebank.util.TipoDeMovimentacao;
 import lombok.AllArgsConstructor;
@@ -7,30 +7,26 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "MOVIMENTACAO")
 public class Movimentacao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Long id;
-	
-	//@Column(nullable = false)
-	//@ManyToOne
-	//private Conta conta;
-	@Column(nullable = false)
+
+	@Column(nullable = false, name = "DATA")
     private Date data;
-	@Column(nullable = false)
+
+	@Column(nullable = false, name = "TIPO_DE_MOVIMENTACAO")
     private TipoDeMovimentacao tipoDeMovimentacao;
-	@Column(nullable = false)
+
+	@Column(nullable = false, name = "VALOR")
     private Double valor = 0D;
 }

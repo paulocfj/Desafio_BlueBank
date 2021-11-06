@@ -1,6 +1,6 @@
 package com.ibm.notfound.bluebank.repository;
 
-import com.ibm.notfound.bluebank.model.Conta;
+import com.ibm.notfound.bluebank.entity.Conta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
