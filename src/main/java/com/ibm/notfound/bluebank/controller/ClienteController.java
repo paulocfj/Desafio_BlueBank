@@ -24,19 +24,35 @@ public class ClienteController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ClienteResponse> listarCliente(@PathVariable Long id) {
-
 		ClienteResponse cliente =  clienteService.buscarClientePorId(id);
 		if (cliente == null) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 		}
 		return  ResponseEntity.ok().body(cliente);
 	}
 	
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ClienteResponse adicionar(@RequestBody ClienteRequest cliente) {
-			return clienteService.criarCliente(cliente);
+	public ResponseEntity <?> adicionar(@RequestBody ClienteRequest cliente) {
+		ClienteResponse response = clienteService.criarCliente(cliente);
+		if(response == null) {
+			return ResponseEntity.badRequest().body("Erro ao cadastrar, verifique os campos");
+		}
+		return ResponseEntity.ok().body(response);
 	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Integer> deletar(@PathVariable Long id) {
+		int response = clienteService.deletarCliente(id);
+		if (response == 404)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(404);
+		return ResponseEntity.ok().body(200);
+	}
+
+	/* modificar depois
+	@PutMapping(value = "/{id}")
+	public ClienteResponse atualizarCliente(@RequestBody ClienteRequest cliente, @PathVariable Long id) {
+		return clienteService.atualizarCliente(cliente, id);
+	}*/
 }
 
 

@@ -1,0 +1,37 @@
+package com.ibm.notfound.bluebank.service;
+
+import com.ibm.notfound.bluebank.entity.Conta;
+import com.ibm.notfound.bluebank.entity.Movimentacao;
+import com.ibm.notfound.bluebank.repository.ContaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+
+@Service
+public class MovimentacaoService {
+    @Autowired
+    private ContaRepository contaRepository;
+
+    public String fazerTransferencia(Long contaCliente, Movimentacao movimentacao) {
+        Conta contaClienteOrigin = contaRepository.findByNumeroConta(contaCliente);
+        Conta contaClienteDestino = contaRepository.findByNumeroConta(movimentacao.getContaDestino());
+
+        Double saldo = contaClienteOrigin.getSaldo();
+        Double valorTransferencia = movimentacao.getValor();
+
+        if(saldo >= valorTransferencia) {
+            contaClienteOrigin.setSaldo(saldo - valorTransferencia);
+            contaClienteDestino.setSaldo(contaClienteDestino.getSaldo() + valorTransferencia);
+
+            //contaClienteOrigin.setMovimentacao(movimentacao);
+        } else {
+            return "Saldo inválido";
+        }
+
+        contaRepository.save(contaClienteOrigin);
+        contaRepository.save(contaClienteDestino);
+
+        return "Transferência realizada com sucesso";
+    }
+}

@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class Movimentacao {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private Long id;
 
@@ -34,9 +34,4 @@ public class Movimentacao {
 
 	@Column(name = "CONTA_DESTINO")
 	private Long contaDestino;
-
-
-	@ManyToOne
-	@JoinColumn
-	private Conta conta;
 }

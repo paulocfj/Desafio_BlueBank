@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +34,8 @@ public class Conta {
 
 	@Column(name = "TIPO_DE_CONTA")
 	private TipoDeConta tipoDeConta;
+
+	@OneToMany
+	@JoinColumn
+	private List<Movimentacao> movimentacao;
 }

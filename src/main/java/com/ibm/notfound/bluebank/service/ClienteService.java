@@ -41,15 +41,36 @@ public class ClienteService {
             ClienteResponse clienteResponse = new ClienteResponse(cliente.get());
             return clienteResponse;
         }
-
         return null;
     }
 
     public ClienteResponse criarCliente(ClienteRequest clienteRequest) {
         Cliente cliente = clienteRequest.toEntity();
-        Cliente novoCliente = clienteRepository.save(cliente);
-        ClienteResponse clienteResponse = new ClienteResponse(novoCliente);
-        return  clienteResponse;
+        try {
+            Cliente novoCliente = clienteRepository.save(cliente);
+            ClienteResponse clienteResponse = new ClienteResponse(novoCliente);
+            return clienteResponse;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
+    public Integer deletarCliente(Long id) {
+        try {
+            clienteRepository.deleteById(id);
+            return 200;
+        } catch (Exception e) {
+           return 404;
+        }
+    }
+
+    /* modifcar depois
+    public ClienteResponse atualizarCliente(ClienteRequest novoCliente, Long id) {
+        ClienteResponse cliente = buscarClientePorId(id);
+        Cliente clientePut = novoCliente.toEntity();
+        clienteRepository.save(clientePut);
+        ClienteResponse clienteResponse = new ClienteResponse(clientePut);
+        return  clienteResponse;
+    }*/
 }
