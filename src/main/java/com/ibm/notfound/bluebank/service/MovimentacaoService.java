@@ -39,9 +39,7 @@ public class MovimentacaoService {
         return "Depósito realizado com sucesso!";
     }
 
-    public String fazerTransferencia(Long contaCliente, MovimentacaoTransferencia movimentacao) {
-        Conta contaClienteOrigin = contaRepository.findByNumeroConta(contaCliente);
-        Conta contaClienteDestino = contaRepository.findByNumeroConta(movimentacao.getContaDestino());
+    public String fazerTransferencia(MovimentacaoTransferencia movimentacao, Conta contaClienteOrigin, Conta contaClienteDestino) {
 
         Double saldo = contaClienteOrigin.getSaldo();
         Double valorTransferencia = movimentacao.getValor();
@@ -54,7 +52,7 @@ public class MovimentacaoService {
             m.setContaDestino(movimentacao.getContaDestino());
             m.setTipoDeMovimentacao(movimentacao.getTipoDeMovimentacao());
             m.setValor(movimentacao.getValor());
-            m.setContaOrigem(contaCliente);
+            m.setContaOrigem(contaClienteOrigin.getNumeroConta());
 
             movimentacaoRepository.save(m);
 

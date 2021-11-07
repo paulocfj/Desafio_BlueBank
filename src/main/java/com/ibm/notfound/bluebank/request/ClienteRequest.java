@@ -1,7 +1,6 @@
 package com.ibm.notfound.bluebank.request;
 
 import com.ibm.notfound.bluebank.entity.Cliente;
-import com.ibm.notfound.bluebank.entity.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
