@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long> {
-    @Query(value = "SELECT * FROM MOVIMENTACAO WHERE CONTA_ORIGEM = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM MOVIMENTACAO WHERE CONTA_ORIGEM = ?1 OR CONTA_DESTINO = ?1", nativeQuery = true)
     List<Movimentacao> findAllMovimentacaoPeloNumeroConta(Long numeroConta);
 }
