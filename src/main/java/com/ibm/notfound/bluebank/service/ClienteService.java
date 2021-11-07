@@ -19,12 +19,6 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Autowired
-    private ContaRepository contaRepository;
-
-    @Autowired
-    private EnderecoRepository enderecoRepository;
-
     public List<ClienteResponse> buscarClientes() {
         List<Cliente> cliente = clienteRepository.findAll();
         List<ClienteResponse> clienteResponses = new ArrayList<>();

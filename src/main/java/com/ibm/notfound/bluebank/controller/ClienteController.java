@@ -32,7 +32,7 @@ public class ClienteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity <?> adicionar(@RequestBody ClienteRequest cliente) {
+	public ResponseEntity<?> adicionar(@RequestBody ClienteRequest cliente) {
 		ClienteResponse response = clienteService.criarCliente(cliente);
 		if(response == null) {
 			return ResponseEntity.badRequest().body("Erro ao cadastrar, verifique os campos");

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movimentacoes")
 public class MovimentacaoController {
@@ -25,9 +27,13 @@ public class MovimentacaoController {
     @Autowired
     private MovimentacaoService movimentacaoService;
 
-    @PostMapping("/{numeroContaOrigin}")
-    public String fazerTransferenciaParaOutraConta(@PathVariable Long numeroContaOrigin, @RequestBody Movimentacao movimentacao){
-        return  movimentacaoService.fazerTransferencia(numeroContaOrigin, movimentacao);
+    @PostMapping("/{numeroContaOrigem}")
+    public String realizarTransferencia(@PathVariable Long numeroContaOrigem, @RequestBody Movimentacao movimentacao){
+        return  movimentacaoService.fazerTransferencia(numeroContaOrigem, movimentacao);
     }
 
+    @GetMapping("/{numeroConta}")
+    public List<Movimentacao> listarHistoricoTransacoes(@PathVariable Long numeroConta) {
+        return movimentacaoService.listarMovimentacoesPeloNumeroConta(numeroConta);
+    }
 }

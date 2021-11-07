@@ -34,4 +34,7 @@ public class Movimentacao {
 
 	@Column(name = "CONTA_DESTINO")
 	private Long contaDestino;
+
+	@Column(name = "CONTA_ORIGEM")
+	private Long contaOrigem;
 }

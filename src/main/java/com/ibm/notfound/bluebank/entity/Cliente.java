@@ -41,13 +41,10 @@ public class Cliente {
 	@Column(nullable = false, name = "DOCUMENTO", unique = true)
 	private String documento;
 
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ENDERECO_ID")
     private Endereco  endereco;
 
-
 	@OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
 	private List<Conta> contas = new ArrayList<>();
-
 }

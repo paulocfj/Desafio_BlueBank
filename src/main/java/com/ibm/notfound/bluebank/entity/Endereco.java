@@ -42,9 +42,4 @@ public class Endereco {
 
     @Column(nullable = false, name = "UF")
     private String uf;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CLIENTE_ID")
-    @JsonIgnore
-    private Cliente cliente;
 }
