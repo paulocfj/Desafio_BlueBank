@@ -27,6 +27,7 @@
 ## Funcionalidades
 
 * Criar contas bancárias.
+* CRUD do cliente
 * Realizar depósito, saque e transferência.
 * Gerar extrato.
 
