@@ -32,40 +32,40 @@ class ClienteTests {
     @Autowired
     private ClienteService clienteService;
 
-    @Test
-    void listarCliente_deveria_retornar_status_200() throws  Exception{
-        Endereco e = new Endereco();
-        e.setId(1L);
-        e.setRua("Rua armando marti");
-        e.setBairro("Centro");
-        e.setCep("2555666");
-        e.setNumero(555);
-        e.setCidade("Petro");
-        e.setUf("RJ");
-
-        Conta conta = new Conta();
-        conta.setId(2L);
-        conta.setNumeroConta(545123688L);
-        conta.setSaldo(10500D);
-        conta.setTipoDeConta(TipoDeConta.POUPANCA);
-
-        Cliente cliente = new Cliente();
-        cliente.setId(1L);
-        cliente.setNome("Mateus");
-        cliente.setEmail("mm@gmail.com");
-        cliente.setTelefone("24955664488");
-        cliente.setIdade(20);
-        cliente.setDocumento("256984656");
-        cliente.setEndereco(e);
-
-        cliente.getContas().add(conta);
-
-        //ClienteResponse response = clienteService.criarCliente(CLcliente);
-
-        mockMvc.perform(get("/clientes/1")
-                .contentType("application/json"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    void listarCliente_deveria_retornar_status_200() throws  Exception{
+//        Endereco e = new Endereco();
+//        e.setId(1L);
+//        e.setRua("Rua armando marti");
+//        e.setBairro("Centro");
+//        e.setCep("2555666");
+//        e.setNumero(555);
+//        e.setCidade("Petro");
+//        e.setUf("RJ");
+//
+//        Conta conta = new Conta();
+//        conta.setId(2L);
+//        conta.setNumeroConta(545123688L);
+//        conta.setSaldo(10500D);
+//        conta.setTipoDeConta(TipoDeConta.POUPANCA);
+//
+//        Cliente cliente = new Cliente();
+//        cliente.setId(1L);
+//        cliente.setNome("Mateus");
+//        cliente.setEmail("mm@gmail.com");
+//        cliente.setTelefone("24955664488");
+//        cliente.setIdade(20);
+//        cliente.setDocumento("256984656");
+//        cliente.setEndereco(e);
+//
+//        cliente.getContas().add(conta);
+//
+//        //ClienteResponse response = clienteService.criarCliente(CLcliente);
+//
+//        mockMvc.perform(get("/clientes/1")
+//                .contentType("application/json"))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     void adicionar_deveria_retornar_status_200() throws Exception {
