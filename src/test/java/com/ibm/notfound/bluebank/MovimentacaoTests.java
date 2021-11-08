@@ -95,15 +95,103 @@ public class MovimentacaoTests {
                 .thenReturn(listaConta.get(0));
 
         given()
-                //.accept(ContentType.JSON)
                 .contentType("application/json")
                 .body("{\"valor\":"+movimentacaoSaque.getValor()+", \"tipeDeMovimentacao\": \""+movimentacaoSaque.getTipoDeMovimentacao()+"\"}")
-        .when()
+                .when()
                 .post("/movimentacoes/saque/{numeroConta}",listaConta.get(0).getNumeroConta() )
-        .then()
+                .then()
                 .statusCode(HttpStatus.OK.value());
     }
 
+    @Test
+    public void deveRetornarSaldoInvalido_QuandoRealizadoSaque() {
+        Double valor = listaConta.get(0).getSaldo()+100;
+        when(this.movimentacaoService.fazerSaque(listaConta.get(0).getNumeroConta(),movimentacaoSaque))
+                .thenReturn("Saque realizado com sucesso!");
+        when(this.contaService.buscarConta(listaConta.get(0).getNumeroConta()))
+                .thenReturn(listaConta.get(0));
+
+        given()
+                //.accept(ContentType.JSON)
+                .contentType("application/json")
+                .body("{\"valor\":"+valor+ ", \"tipeDeMovimentacao\": \""+movimentacaoSaque.getTipoDeMovimentacao()+"\"}")
+                .when()
+                .post("/movimentacoes/saque/{numeroConta}",listaConta.get(0).getNumeroConta() )
+                .then()
+                .expect(result -> equals("Saldo inválido!"))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void deveRetornarStatus404_QuandoRealizadoSaque() {
+        Double valor = movimentacaoSaque.getValor() ;
+
+        when(this.movimentacaoService.fazerSaque(listaConta.get(0).getNumeroConta(),movimentacaoSaque))
+                .thenReturn("Saque realizado com sucesso!");
+        when(this.contaService.buscarConta(4L))
+                .thenReturn(null);
+
+        given()
+                //.accept(ContentType.JSON)
+                .contentType("application/json")
+                .body("{\"valor\":"+valor+ ", \"tipeDeMovimentacao\": \""+movimentacaoSaque.getTipoDeMovimentacao()+"\"}")
+                .when()
+                .post("/movimentacoes/saque/{numeroConta}",4l )
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void deveRetornarSucesso_QuandoRealizadoDeposito() {
+        when(this.movimentacaoService.fazerDeposito(listaConta.get(1).getNumeroConta(),movimentacaoDeposito))
+                .thenReturn("Depósito realizado com sucesso!");
+        when(this.contaService.buscarConta(listaConta.get(1).getNumeroConta()))
+                .thenReturn(listaConta.get(1));
+
+        given()
+                .contentType("application/json")
+                .body("{\"valor\":"+movimentacaoDeposito.getValor()+", \"tipeDeMovimentacao\": \""+movimentacaoDeposito.getTipoDeMovimentacao()+"\"}")
+                .when()
+                .post("/movimentacoes/deposito/{numeroConta}",listaConta.get(1).getNumeroConta() )
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void deveRetornarStatus404_QuandoRealizadoDeposito() {
+        Double valor = movimentacaoDeposito.getValor() ;
+
+        when(this.movimentacaoService.fazerDeposito(5L,movimentacaoDeposito))
+                .thenReturn("Depósito realizado com sucesso!");
+        when(this.contaService.buscarConta(5L))
+                .thenReturn(null);
+
+        given()
+                .contentType("application/json")
+                .body("{\"valor\":"+movimentacaoDeposito.getValor()+", \"tipeDeMovimentacao\": \""+movimentacaoDeposito.getTipoDeMovimentacao()+"\"}")
+                .when()
+                .post("/movimentacoes/deposito/{numeroConta}",5L )
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void deveRetornarSucesso_QuandoRealizadoTransferencia() {
+        when(this.movimentacaoService.fazerTransferencia(movimentacaoTransferencia, listaConta.get(1), listaConta.get(2)))
+                .thenReturn("Transferência realizada com sucesso!");
+        when(this.contaService.buscarConta(listaConta.get(1).getNumeroConta()))
+                .thenReturn(listaConta.get(1));
+        when(this.contaService.buscarConta(listaConta.get(2).getNumeroConta()))
+                .thenReturn(listaConta.get(2));
+
+        given()
+                .contentType("application/json")
+                .body("{\"valor\":"+movimentacaoTransferencia.getValor()+", \"contaDestino\": "+movimentacaoTransferencia.getContaDestino()+", \"tipeDeMovimentacao\": \""+movimentacaoTransferencia.getTipoDeMovimentacao()+"\"}")
+                .when()
+                .post("/movimentacoes/transferencia/{numeroConta}",listaConta.get(1).getNumeroConta() )
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
 
     @AfterEach
     public void encerrando() {
