@@ -22,8 +22,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/clientes")
 @Api(value="Cliente")
 public class ClienteController {
-
-
 	@Autowired
 	private ClienteService clienteService;
 
