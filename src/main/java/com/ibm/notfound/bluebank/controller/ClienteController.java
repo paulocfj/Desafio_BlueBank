@@ -1,15 +1,26 @@
 package com.ibm.notfound.bluebank.controller;
 
-import com.ibm.notfound.bluebank.request.ClienteRequest;
-import com.ibm.notfound.bluebank.response.ClienteResponse;
-import com.ibm.notfound.bluebank.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ibm.notfound.bluebank.request.ClienteRequest;
+import com.ibm.notfound.bluebank.response.ClienteResponse;
+import com.ibm.notfound.bluebank.service.ClienteService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/clientes")
+@Api(value="Cliente")
 public class ClienteController {
 
 
@@ -17,6 +28,7 @@ public class ClienteController {
 	private ClienteService clienteService;
 
 	@GetMapping
+	@ApiOperation(value = "Mostra lista de clientes")
 	public ResponseEntity<?> listarClientes() {
 		try {
 			return ResponseEntity.ok().body(clienteService.buscarClientes());
@@ -26,6 +38,7 @@ public class ClienteController {
 		}
 	}
 
+	@ApiOperation(value = "Mostra cliente pelo Id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> listarCliente(@PathVariable Long id) {
 		try {
@@ -40,6 +53,7 @@ public class ClienteController {
 		}
 	}
 	
+	@ApiOperation(value = "Cadastrar cliente")
 	@PostMapping
 	public ResponseEntity<?> adicionar(@RequestBody ClienteRequest cliente) {
 		try {
@@ -54,6 +68,7 @@ public class ClienteController {
 		}
 	}
 
+	@ApiOperation(value = "Excluir cliente")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable Long id) {
 		try {

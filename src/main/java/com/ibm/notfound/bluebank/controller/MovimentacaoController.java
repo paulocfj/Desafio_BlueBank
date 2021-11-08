@@ -1,17 +1,27 @@
 package com.ibm.notfound.bluebank.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ibm.notfound.bluebank.entity.Conta;
 import com.ibm.notfound.bluebank.request.MovimentacaoDeposito;
 import com.ibm.notfound.bluebank.request.MovimentacaoSaque;
 import com.ibm.notfound.bluebank.request.MovimentacaoTransferencia;
 import com.ibm.notfound.bluebank.service.ContaService;
 import com.ibm.notfound.bluebank.service.MovimentacaoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
+@Api(value = "Movimentacao")
 @RestController
 @RequestMapping("/movimentacoes")
 public class MovimentacaoController {
@@ -21,6 +31,7 @@ public class MovimentacaoController {
     @Autowired
     private ContaService contaService;
 
+    @ApiOperation(value = "Realizar saque")
     @PostMapping("/saque/{numeroContaOrigem}")
     public ResponseEntity<?> realizarSaque(@PathVariable Long numeroContaOrigem, @RequestBody MovimentacaoSaque movimentacao){
         try {
@@ -36,6 +47,7 @@ public class MovimentacaoController {
 
     }
 
+    @ApiOperation(value = "Realizar transfer�ncia")
     @PostMapping("/transferencia/{numeroContaOrigem}")
     public ResponseEntity<?> realizarTransferencia(@PathVariable Long numeroContaOrigem, @RequestBody MovimentacaoTransferencia movimentacao){
         try {
@@ -55,6 +67,7 @@ public class MovimentacaoController {
         }
     }
 
+    @ApiOperation(value = "Realizar deposito")
     @PostMapping("/deposito/{numeroContaOrigem}")
     public ResponseEntity<?>  realizarDeposito(@PathVariable Long numeroContaOrigem, @RequestBody MovimentacaoDeposito movimentacao){
         try {
@@ -70,6 +83,7 @@ public class MovimentacaoController {
     }
 
 
+    @ApiOperation(value = "Mostra lista de movimenta��o")
     @GetMapping("/{numeroConta}")
     public ResponseEntity<?> listarHistoricoTransacoes(@PathVariable Long numeroConta) {
         try {
